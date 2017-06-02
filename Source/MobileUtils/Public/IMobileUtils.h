@@ -1,15 +1,11 @@
 // Mobile Utils Plugin
 // Created by Patryk Stepniewski
-// Copyright (c) 2014-2017 gameDNA. All Rights Reserved.
+// Copyright (c) 2014-2016 gameDNA studio. All Rights Reserved.
 
 #pragma once
 
 #include "ModuleManager.h"
-#include "EngineMinimal.h"
-#include "Core.h"
 #include "Interfaces/MobileUtilsInterface.h"
-
-DECLARE_LOG_CATEGORY_EXTERN(LogMobileUtils, Log, All);
 
 typedef TSharedPtr<IMobileUtilsInterface, ESPMode::ThreadSafe> FMobileUtilsPlatformPtr;
 

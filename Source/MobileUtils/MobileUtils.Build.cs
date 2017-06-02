@@ -1,6 +1,6 @@
 // Mobile Utils Plugin
 // Created by Patryk Stepniewski
-// Copyright (c) 2014-2017 gameDNA. All Rights Reserved.
+// Copyright (c) 2014-2016 gameDNA studio. All Rights Reserved.
 
 using System.IO;
 
@@ -8,19 +8,16 @@ namespace UnrealBuildTool.Rules
 {
 	public class MobileUtils : ModuleRules
 	{
-		public MobileUtils(ReadOnlyTargetRules Target) : base(Target)
+		public MobileUtils(TargetInfo Target)
 		{
-			PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-
 			Definitions.Add("WITH_MOBILEUTILS=1");
 
 			PrivateIncludePaths.Add("MobileUtils/Private");
 
-            PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject", "OnlineSubsystem" });
-
+            PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Core", "CoreUObject" });
 			PrivateIncludePathModuleNames.AddRange(new string[] { "Settings" });
 
-			if (Target.Platform == UnrealTargetPlatform.IOS)
+			if (Target.Platform == UnrealTargetPlatform.IOS || Target.Platform == UnrealTargetPlatform.TVOS)
 			{
 				PrivateIncludePaths.Add("MobileUtils/Private/IOS");
 			}
@@ -29,20 +26,20 @@ namespace UnrealBuildTool.Rules
 				PrivateIncludePaths.Add("MobileUtils/Private/Android");
 			}
 
-			// Additional Frameworks and Libraries for IOS
+			// Additional Frameworks and Libraries for iOS
 			if (Target.Platform == UnrealTargetPlatform.IOS)
 			{
 				PublicAdditionalFrameworks.Add(
 					new UEBuildFramework(
 						"Reachability",
-						"../ThirdParty/IOS/Reachability.embeddedframework.zip"
+						"../ThirdParty/iOS/Reachability.embeddedframework.zip"
 					)
 				);
 
 				PublicAdditionalFrameworks.Add(
 					new UEBuildFramework(
 						"SSKeychain",
-						"../ThirdParty/IOS/SSKeychain.embeddedframework.zip"
+						"../ThirdParty/iOS/SSKeychain.embeddedframework.zip"
 					)
 				);
 
@@ -56,16 +53,14 @@ namespace UnrealBuildTool.Rules
 
 				PublicAdditionalLibraries.Add("z");
 				PublicAdditionalLibraries.Add("sqlite3");
-
-				string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, BuildConfiguration.RelativeEnginePath);
-				AdditionalPropertiesForReceipt.Add(new ReceiptProperty("IOSPlugin", Path.Combine(PluginPath, "MobileUtils_UPL_IOS.xml")));
 			}
+
 			// Additional Frameworks and Libraries for Android
 			else if (Target.Platform == UnrealTargetPlatform.Android)
 			{
 				PrivateDependencyModuleNames.AddRange(new string[] { "Launch" });
 				string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, BuildConfiguration.RelativeEnginePath);
-				AdditionalPropertiesForReceipt.Add(new ReceiptProperty("AndroidPlugin", Path.Combine(PluginPath, "MobileUtils_UPL_Android.xml")));
+				AdditionalPropertiesForReceipt.Add(new ReceiptProperty("AndroidPlugin", Path.Combine(PluginPath, "MobileUtils_APL.xml")));
 			}
 		}
 	}

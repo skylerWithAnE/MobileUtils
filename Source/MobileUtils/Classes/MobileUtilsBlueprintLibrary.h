@@ -1,11 +1,13 @@
 // Mobile Utils Plugin
 // Created by Patryk Stepniewski
-// Copyright (c) 2014-2017 gameDNA. All Rights Reserved.
+// Copyright (c) 2014-2016 gameDNA studio. All Rights Reserved.
 
 #pragma once
 
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Runtime/Engine/Classes/Engine/Texture2D.h"
 #include "MobileUtilsBlueprintLibrary.generated.h"
+
 
 UCLASS()
 class MOBILEUTILS_API UMobileUtilsBlueprintLibrary : public UBlueprintFunctionLibrary
@@ -36,11 +38,23 @@ class MOBILEUTILS_API UMobileUtilsBlueprintLibrary : public UBlueprintFunctionLi
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = MobileUtils)
 	static FString GetPersistentUniqueDeviceId();
 
+
 	/**
-	* Return platform specific Auth Token retrieved from Online Subsystem
+	* Start intent to select image.
 	*
-	* @return - Auth Token
+	*
+	*/
+	UFUNCTION(BlueprintCallable, Category = MobileUtils)
+	static void SelectImage();
+
+	/**
+	* Return the path to the image that the user selected.
+	*
+	* @return - full path to the image user selected in gallery prompt.
 	*/
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = MobileUtils)
-	static FString GetAuthToken();
+	static FString GetImagePath();
+
+	UFUNCTION(BlueprintCallable, Category = MobileUtils)
+	static UTexture2D* GetImgTexture(float& Height, float& Width);
 };

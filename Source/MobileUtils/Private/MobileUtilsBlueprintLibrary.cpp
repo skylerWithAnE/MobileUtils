@@ -1,11 +1,11 @@
 // Mobile Utils Plugin
 // Created by Patryk Stepniewski
-// Copyright (c) 2014-2017 gameDNA. All Rights Reserved.
+// Copyright (c) 2014-2016 gameDNA studio. All Rights Reserved.
 
+#include "MobileUtilsPrivatePCH.h"
 #include "MobileUtilsBlueprintLibrary.h"
 #include "Runtime/Engine/Classes/Kismet/KismetSystemLibrary.h"
-#include "OnlineSubsystem.h"
-#include "OnlineIdentityInterface.h"
+
 
 UMobileUtilsBlueprintLibrary::UMobileUtilsBlueprintLibrary(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -39,17 +39,33 @@ FString UMobileUtilsBlueprintLibrary::GetPersistentUniqueDeviceId()
 #endif
 }
 
-FString UMobileUtilsBlueprintLibrary::GetAuthToken()
-{
-	auto OnlineSubsystem = IOnlineSubsystem::Get();
-	if (OnlineSubsystem)
-	{
-		IOnlineIdentityPtr OnlineIdentity = OnlineSubsystem->GetIdentityInterface();
-		if (OnlineIdentity.IsValid())
-		{
-			 return OnlineIdentity->GetAuthToken(0);
-		}
-	}
+//	REMOVE BEFORE PULL REQUEST
+//	My stuff.
 
-	return FString();
+void UMobileUtilsBlueprintLibrary::SelectImage()
+{
+#if PLATFORM_ANDROID || PLATFORM_IOS
+	return IMobileUtils::Get().GetPlatformInterface()->SelectImage();
+#else
+	return;
+#endif
 }
+
+FString UMobileUtilsBlueprintLibrary::GetImagePath() 
+{
+	#if PLATFORM_ANDROID || PLATFORM_IOS
+		return IMobileUtils::Get().GetPlatformInterface()->GetImagePath();
+	#else
+		return FString("");
+	#endif
+}
+
+UTexture2D* UMobileUtilsBlueprintLibrary::GetImgTexture(float& Height, float& Width)
+{
+#if PLATFORM_ANDROID || PLATFORM_IOS
+	return IMobileUtils::Get().GetPlatformInterface()->GetImgTexture(Height, Width);
+#else
+	return NULL;
+#endif
+}
+

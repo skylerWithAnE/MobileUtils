@@ -1,11 +1,11 @@
 // Mobile Utils Plugin
 // Created by Patryk Stepniewski
-// Copyright (c) 2014-2017 gameDNA. All Rights Reserved.
+// Copyright (c) 2014-2016 gameDNA studio. All Rights Reserved.
 
 #pragma once
 
-#include "EngineMinimal.h"
-#include "Core.h"
+#include "Runtime/Engine/Classes/Engine/Texture2D.h"
+
 
 class IMobileUtilsInterface
 {
@@ -30,4 +30,20 @@ public:
 	* @return - Unique Device ID
 	*/
 	virtual FString GetPersistentUniqueDeviceId();
+
+	/**
+	* Prompt user to select an image from gallery.
+	*
+	*
+	*/
+	virtual void SelectImage();
+
+	/**
+	* Return the path to user's selected image.
+	*
+	* @return - The full file path of the selected image.
+	*/
+	virtual FString GetImagePath();
+
+	virtual UTexture2D* GetImgTexture(float& Height, float& Width);
 };
